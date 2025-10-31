@@ -1,7 +1,10 @@
 package cg.park.simpleauth.domain.user;
 
-import cg.park.simpleauth.common.util.Message;
+import cg.park.simpleauth.common.anotaion.ValidJwt;
+import cg.park.simpleauth.common.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,14 +21,16 @@ public class UserController {
         this.userService = userService;
     }
 
+    @ValidJwt
     @GetMapping
-    public Message users() {
-        return userService.findAll();
+    public ResponseEntity<ApiResponse> users() {
+        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
+    @ValidJwt
     @GetMapping("/{userId}")
-    public Message user(@PathVariable String userId) {
-        return userService.findByUser(userId);
+    public ResponseEntity<ApiResponse> user(@PathVariable String userId) {
+        return new ResponseEntity<>(userService.findByUser(userId), HttpStatus.OK);
     }
 
 }

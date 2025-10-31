@@ -1,8 +1,7 @@
 package cg.park.simpleauth.domain.user;
 
-import cg.park.simpleauth.common.auth.Auth;
 import cg.park.simpleauth.common.enums.ResultType;
-import cg.park.simpleauth.common.util.Message;
+import cg.park.simpleauth.common.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +15,15 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Message findByUser(String userId) {
+    public ApiResponse findByUser(String userId) {
          User user = userRepository.findByUser(userId);
          if (null == user)  {
-             return new Message(ResultType.INVALID_PARAMETER);
+             return new ApiResponse(ResultType.INVALID_PARAMETER);
          }
-        return new Message(ResultType.SUCCESS, user, "user");
+        return new ApiResponse(ResultType.SUCCESS, user, "user");
     }
 
-    public Message findAll() {
-        return new Message(ResultType.SUCCESS, userRepository.findAll(), "users");
+    public ApiResponse findAll() {
+        return new ApiResponse(ResultType.SUCCESS, userRepository.findAll(), "users");
     }
 }

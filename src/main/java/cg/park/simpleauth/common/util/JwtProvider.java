@@ -1,10 +1,7 @@
 package cg.park.simpleauth.common.util;
 
 import cg.park.simpleauth.domain.user.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -46,6 +43,19 @@ public class JwtProvider {
             .build()
             .parseClaimsJws(BearerRemove(token))  // JWT 검증
             .getBody();
+    }
+
+    public boolean isValid(String token) {
+        try {
+            parseJwtToken(token);
+            return true;
+        } catch (ExpiredJwtException e) {
+            System.out.println("토큰 만료");
+            return false;
+        } catch (Exception e) {
+            System.out.println("JWT 오류");
+            return false;
+        }
     }
 
     private String BearerRemove(String token) {

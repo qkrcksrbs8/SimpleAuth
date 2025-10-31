@@ -6,9 +6,7 @@ import cg.park.simpleauth.domain.user.User;
 import cg.park.simpleauth.domain.user.UserRepository;
 import cg.park.simpleauth.domain.user.UserService;
 import io.jsonwebtoken.Claims;
-import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,23 +24,23 @@ public class AuthService {
         this.jwt = jwt;
     }
 
-    public Message token(Auth auth) {
+    public ApiResponse token(Auth auth) {
         User user = userRepository.findByUser(auth.getUserId());
 
         if (user == null) {
-            return new Message(ResultType.INVALID_LOGIN);
+            return new ApiResponse(ResultType.INVALID_LOGIN);
         }
         String token = jwt.create(user);
-        return new Message(ResultType.SUCCESS, token, "token");
+        return new ApiResponse(ResultType.SUCCESS, token, "token");
     }
 
-    public Message cert(String token) {
+    public ApiResponse cert(String token) {
         try {
             Claims parserToken = jwt.parseJwtToken(token);
-            return new Message(ResultType.SUCCESS, parserToken, "parserToken");
+            return new ApiResponse(ResultType.SUCCESS, parserToken, "parserToken");
         }
         catch (Exception e) {
-            return new Message(ResultType.INVALID_TOKEN);
+            return new ApiResponse(ResultType.INVALID_TOKEN);
         }
     }
 
