@@ -14,24 +14,19 @@ public class AuthService {
 
     private final JwtProvider jwt;
 
-    private final UserService userService;
     private final UserRepository userRepository;
 
     @Autowired
-    public AuthService(JwtProvider jwt, UserService userService, UserRepository userRepository) {
-        this.userService = userService;
+    public AuthService(JwtProvider jwt, UserRepository userRepository) {
         this.userRepository = userRepository;
         this.jwt = jwt;
     }
 
     public ApiResponse token(Auth auth) {
         User user = userRepository.findByUser(auth.getUserId());
-
-        if (user == null) {
-            return new ApiResponse(ResultType.INVALID_LOGIN);
-        }
-        String token = jwt.create(user);
-        return new ApiResponse(ResultType.SUCCESS, token, "token");
+        return (user == null)
+            ? new ApiResponse(ResultType.INVALID_LOGIN)
+            : new ApiResponse(ResultType.SUCCESS, jwt.create(user), "token");
     }
 
     public ApiResponse cert(String token) {

@@ -17,10 +17,9 @@ public class UserService {
 
     public ApiResponse findByUser(String userId) {
          User user = userRepository.findByUser(userId);
-         if (null == user)  {
-             return new ApiResponse(ResultType.INVALID_PARAMETER);
-         }
-        return new ApiResponse(ResultType.SUCCESS, user, "user");
+         return (null == user)
+             ? new ApiResponse(ResultType.INVALID_PARAMETER)
+             : new ApiResponse(ResultType.SUCCESS, user, "user");
     }
 
     public ApiResponse findAll() {
