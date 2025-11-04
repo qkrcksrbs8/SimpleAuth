@@ -1,4 +1,4 @@
-package cg.park.simpleauth.common.anotaion;
+package cg.park.simpleauth.common.annotaion;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

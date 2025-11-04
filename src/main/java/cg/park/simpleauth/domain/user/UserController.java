@@ -1,6 +1,6 @@
 package cg.park.simpleauth.domain.user;
 
-import cg.park.simpleauth.common.anotaion.ValidJwt;
+import cg.park.simpleauth.common.annotaion.ValidJwt;
 import cg.park.simpleauth.common.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
