@@ -4,7 +4,6 @@ import cg.park.simpleauth.common.enums.ResultType;
 import cg.park.simpleauth.common.util.*;
 import cg.park.simpleauth.domain.user.User;
 import cg.park.simpleauth.domain.user.UserRepository;
-import cg.park.simpleauth.domain.user.UserService;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

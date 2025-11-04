@@ -23,7 +23,6 @@ public class JwtValidationAspect {
 
     @Around("@annotation(cg.park.simpleauth.common.anotaion.ValidJwt)")
     public Object validJwt(ProceedingJoinPoint joinPoint) throws Throwable {
-
         ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attrs.getRequest();
         String token = request.getHeader("Authorization");

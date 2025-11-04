@@ -41,4 +41,16 @@ public class ApiResponse {
         this.data = new Param(list);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{")
+          .append("\"code\"").append(":").append("\""+code+"\"")
+          .append(",")
+          .append("\"message\"").append(":").append("\""+message+"\"")
+          .append(",")
+          .append("\"data\"").append(":").append("\""+data+"\"")
+          .append("}");
+        return sb.toString();
+    }
 }

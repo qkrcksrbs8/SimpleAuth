@@ -10,6 +10,7 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -24,8 +25,7 @@ public class LoggerAspect {
     @Before("domainMethods()")
     public void before(JoinPoint joinPoint) {
         HttpServletRequest request = HttpRequestUtil.currentRequest();
-        String uri = request.getMethod() + "["+request.getRequestURI()+"]";
-        logger.info("{\"SSID\" : \"{}\", \"@Before\" : \"{}\", \"{}\", \"param\" : \"{}\"}", HttpRequestUtil.currentSsid(), PcgUtils.currentType(joinPoint), uri, PcgUtils.requestParam(joinPoint));
+        logger.info("{\"SSID\" : \"{}\", \"METHOD\" : \"{}\", \"URI\" : \"{}\", \"REQ\" : \"{}\", \"PARAM\" : {}}", HttpRequestUtil.currentSsid(), request.getMethod(), request.getRequestURI(), PcgUtils.currentType(joinPoint), PcgUtils.requestParam(joinPoint));
     }
 
     @AfterReturning(
@@ -33,7 +33,7 @@ public class LoggerAspect {
             "execution(* cg.park.simpleauth.domain..*Controller.*(..)) ", returning="retValue"
     )
     public void after(JoinPoint joinPoint, Object retValue) {
-        logger.info("{\"SSID\" : \"{}\", \"@After\" : \"{}\", \"result\" : \"{}\"", HttpRequestUtil.currentSsid(), PcgUtils.currentType(joinPoint), PcgUtils.cutString(retValue));
+        logger.info("{\"SSID\" : \"{}\", \"RES\" : \"{}\", \"RESULT\" : {}}", HttpRequestUtil.currentSsid(), PcgUtils.currentType(joinPoint), PcgUtils.cutString(((ResponseEntity) retValue).getBody().toString()));
     }
 
 }
