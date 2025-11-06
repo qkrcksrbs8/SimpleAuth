@@ -15,11 +15,7 @@ public class HttpRequestUtil {
     }
 
     public static HttpSession currentSession() {
-        return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
-    }
-
-    public static HttpServletResponse currentResponse () {
-        return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
+        return currentRequest().getSession();
     }
 
     public static String currentSsid() {

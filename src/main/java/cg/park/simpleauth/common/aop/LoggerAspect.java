@@ -19,21 +19,27 @@ public class LoggerAspect {
 
     Logger logger = LoggerFactory.getLogger(super.getClass());
 
+    private void beforeLog(JoinPoint joinPoint) {
+        HttpServletRequest request = HttpRequestUtil.currentRequest();
+        logger.info("{\"SSID\" : \"{}\", \"REQ\" : \"{}\", \"METHOD\" : \"{}\", \"URI\" : \"{}\", \"PARAM\" : {}}", HttpRequestUtil.currentSsid(), PcgUtils.currentType(joinPoint), request.getMethod(), request.getRequestURI(), PcgUtils.requestParam(joinPoint));
+    }
+
+    private void afterLog(JoinPoint joinPoint, Object retValue) {
+        logger.info("{\"SSID\" : \"{}\", \"RES\" : \"{}\", \"RESULT\" : {}}", HttpRequestUtil.currentSsid(), PcgUtils.currentType(joinPoint), PcgUtils.cutString(((ResponseEntity) retValue).getBody().toString()));
+    }
+
     @Pointcut("execution(* cg.park.simpleauth.domain..*Controller.*(..)) ")
     public void domainMethods() {}
 
+
     @Before("domainMethods()")
     public void before(JoinPoint joinPoint) {
-        HttpServletRequest request = HttpRequestUtil.currentRequest();
-        logger.info("{\"SSID\" : \"{}\", \"METHOD\" : \"{}\", \"URI\" : \"{}\", \"REQ\" : \"{}\", \"PARAM\" : {}}", HttpRequestUtil.currentSsid(), request.getMethod(), request.getRequestURI(), PcgUtils.currentType(joinPoint), PcgUtils.requestParam(joinPoint));
+        beforeLog(joinPoint);
     }
 
-    @AfterReturning(
-        pointcut =
-            "execution(* cg.park.simpleauth.domain..*Controller.*(..)) ", returning="retValue"
-    )
+    @AfterReturning(pointcut = "execution(* cg.park.simpleauth.domain..*Controller.*(..)) ", returning="retValue")
     public void after(JoinPoint joinPoint, Object retValue) {
-        logger.info("{\"SSID\" : \"{}\", \"RES\" : \"{}\", \"RESULT\" : {}}", HttpRequestUtil.currentSsid(), PcgUtils.currentType(joinPoint), PcgUtils.cutString(((ResponseEntity) retValue).getBody().toString()));
+        afterLog(joinPoint, retValue);
     }
 
 }

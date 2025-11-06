@@ -2,15 +2,12 @@ package cg.park.simpleauth.common.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.common.util.StringUtils;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Component
 public final class PcgUtils {
@@ -96,4 +93,9 @@ public final class PcgUtils {
             ? ""
             : str.length() > max ? str.substring(0, max)+"..." : str;
     }
+
+    public static boolean isBearerToken(String token) {
+        return (token != null && token.startsWith("Bearer "));
+    }
+
 }

@@ -3,6 +3,7 @@ package cg.park.simpleauth.common.aop;
 import cg.park.simpleauth.common.enums.ResultType;
 import cg.park.simpleauth.common.util.ApiResponse;
 import cg.park.simpleauth.common.util.JwtProvider;
+import cg.park.simpleauth.common.util.PcgUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -27,7 +28,7 @@ public class JwtValidationAspect {
         HttpServletRequest request = attrs.getRequest();
         String token = request.getHeader("Authorization");
 
-        if (token == null || !token.startsWith("Bearer ")) {
+        if (!PcgUtils.isBearerToken(token)) {
             return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(new ApiResponse(ResultType.INVALID_TOKEN));

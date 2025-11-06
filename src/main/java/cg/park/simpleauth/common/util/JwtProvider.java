@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.time.Duration;
-import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -50,10 +49,8 @@ public class JwtProvider {
             parseJwtToken(token);
             return true;
         } catch (ExpiredJwtException e) {
-            System.out.println("토큰 만료");
             return false;
         } catch (Exception e) {
-            System.out.println("JWT 오류");
             return false;
         }
     }

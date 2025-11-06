@@ -15,6 +15,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public ApiResponse findAll() {
+        return new ApiResponse(ResultType.SUCCESS, userRepository.findAll(), "users");
+    }
+
     public ApiResponse findByUser(String userId) {
          User user = userRepository.findByUser(userId);
          return (null == user)
@@ -22,7 +26,4 @@ public class UserService {
              : new ApiResponse(ResultType.SUCCESS, user, "user");
     }
 
-    public ApiResponse findAll() {
-        return new ApiResponse(ResultType.SUCCESS, userRepository.findAll(), "users");
-    }
 }
