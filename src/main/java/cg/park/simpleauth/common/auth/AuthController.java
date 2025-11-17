@@ -27,4 +27,9 @@ public class AuthController {
     public ResponseEntity<ApiResponse> cert(@RequestHeader(value = "Authorization") String token) {
         return new ResponseEntity<>(authService.cert(token), HttpStatus.OK);
     }
+
+    @DeleteMapping("/session")
+    public ResponseEntity<ApiResponse> deleteSession() {
+        return new ResponseEntity<>(authService.deleteSession(), HttpStatus.OK);
+    }
 }
