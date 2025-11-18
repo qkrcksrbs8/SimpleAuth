@@ -5,6 +5,7 @@ import cg.park.simpleauth.common.util.*;
 import cg.park.simpleauth.domain.user.User;
 import cg.park.simpleauth.domain.user.UserRepository;
 import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,14 @@ public class AuthService {
         catch (Exception e) {
             return new ApiResponse(ResultType.INVALID_TOKEN);
         }
+    }
+
+    public ApiResponse deleteSession() {
+        HttpSession session = HttpRequestUtil.currentSession();
+        if (null != session) {
+            session.invalidate();
+        }
+        return new ApiResponse(ResultType.SUCCESS);
     }
 
 }
